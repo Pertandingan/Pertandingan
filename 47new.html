@@ -34,35 +34,72 @@
         const snakeBody = document.querySelector('.snake');
         const food = document.querySelector('.food');
 
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'ArrowRight') {
-                snakeBody.style.left = parseInt(snakeBody.style.left) + 10 + 'px';
-            } else if (event.key === 'ArrowLeft') {
-                snakeBody.style.left = parseInt(snakeBody.style.left) - 10 + 'px';
-            } else if (event.key === 'ArrowDown') {
-                snakeBody.style.top = parseInt(snakeBody.style.top) + 10 + 'px';
-            } else if (event.key === 'ArrowUp') {
-                snakeBody.style.top = parseInt(snakeBody.style.top) - 10 + 'px';
-            }
+        let snakeX = 0;
+        let snakeY = 0;
+        let snakeSpeed = 100; // Initial speed of the snake in milliseconds
+        let dx = 10;
+        let dy = 0;
+        let snakeLength = 1;
 
-            if (checkCollision()) {
-                alert('Game Over!');
+        let intervalId = setInterval(moveSnake, snakeSpeed);
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' && dx === 0) {
+                dx = 10;
+                dy = 0;
+            } else if (event.key === 'ArrowLeft' && dx === 0) {
+                dx = -10;
+                dy = 0;
+            } else if (event.key === 'ArrowDown' && dy === 0) {
+                dx = 0;
+                dy = 10;
+            } else if (event.key === 'ArrowUp' && dy === 0) {
+                dx = 0;
+                dy = -10;
             }
         });
 
+        function moveSnake() {
+            snakeX += dx;
+            snakeY += dy;
+
+            if (snakeX < 0) {
+                snakeX = 390;
+            } else if (snakeX >= 400) {
+                snakeX = 0;
+            }
+
+            if (snakeY < 0) {
+                snakeY = 390;
+            } else if (snakeY >= 400) {
+                snakeY = 0;
+            }
+
+            updateSnakePosition();
+
+            if (checkCollision()) {
+                clearInterval(intervalId);
+                alert('Game Over! Your score: ' + snakeLength);
+            }
+        }
+
+        function updateSnakePosition() {
+            snakeBody.style.left = snakeX + 'px';
+            snakeBody.style.top = snakeY + 'px';
+        }
+
         function checkCollision() {
-            const snakeX = parseInt(snakeBody.style.left);
-            const snakeY = parseInt(snakeBody.style.top);
+            if (snakeX === parseInt(food.style.left) && snakeY === parseInt(food.style.top)) { 
+                snakeLength++;
+                snakeSpeed -= 5; // Increase snake speed
+                clearInterval(intervalId);
+                intervalId = setInterval(moveSnake, snakeSpeed);
 
-            const foodX = parseInt(food.style.left);
-            const foodY = parseInt(food.style.top);
-
-            if (snakeX === foodX && snakeY === foodY) {
                 food.style.left = Math.floor(Math.random() * 39) * 10 + 'px';
                 food.style.top = Math.floor(Math.random() * 39) * 10 + 'px';
             }
 
-            return snakeX < 0 || snakeX >= 400 || snakeY < 0 || snakeY >= 400;
+            return false;
         }
     </script>
 </body>
