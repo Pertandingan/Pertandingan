@@ -3,11 +3,17 @@
 <head>
     <title>Snake Game</title>
     <style>
+        #game {
+            display: flex;
+        }
         #game-board {
             width: 400px;
             height: 400px;
             border: 1px solid #000;
             position: relative;
+        }
+        #info {
+            padding: 10px;
         }
         .snake {
             width: 10px;
@@ -25,23 +31,28 @@
 </head>
 <body>
     <h1>Snake Game</h1>
-    <div id="game-board">
-        <div class="snake" style="left: 0px; top: 0px;"></div>
-        <div class="food" style="left: 100px; top: 100px;"></div>
+    <div id="game">
+        <div id="game-board">
+            <div class="snake" style="left: 0px; top: 0px;"></div>
+            <div class="food" style="left: 100px; top: 100px;"></div>
+        </div>
+        <div id="info">
+            <h2>Game Info</h2>
+            <p>Apples Eaten: <span id="apple-count">0</span></p>
+        </div>
     </div>
 
     <script>
         const snakeBody = document.querySelector('.snake');
         const food = document.querySelector('.food');
+        const appleCountElement = document.getElementById('apple-count');
 
         let snakeX = 0;
         let snakeY = 0;
-        let snakeSpeed = 100; // Initial speed of the snake in milliseconds
         let dx = 10;
         let dy = 0;
         let snakeLength = 1;
-
-        let intervalId = setInterval(moveSnake, snakeSpeed);
+        let applesEaten = 0;
 
         document.addEventListener('keydown', function(event) {
             if (event.key === 'ArrowRight' && dx === 0) {
@@ -79,7 +90,7 @@
 
             if (checkCollision()) {
                 clearInterval(intervalId);
-                alert('Game Over! Your score: ' + snakeLength);
+                alert('Game Over! Your score: ' + applesEaten);
             }
         }
 
@@ -90,10 +101,13 @@
 
         function checkCollision() {
             if (snakeX === parseInt(food.style.left) && snakeY === parseInt(food.style.top)) { 
+                applesEaten++;
+                appleCountElement.textContent = applesEaten;
                 snakeLength++;
-                snakeSpeed -= 5; // Increase snake speed
-                clearInterval(intervalId);
-                intervalId = setInterval(moveSnake, snakeSpeed);
+                
+                let newSnakePart = document.createElement('div');
+                newSnakePart.className = 'snake';
+                document.getElementById('game-board').appendChild(newSnakePart);
 
                 food.style.left = Math.floor(Math.random() * 39) * 10 + 'px';
                 food.style.top = Math.floor(Math.random() * 39) * 10 + 'px';
@@ -101,6 +115,8 @@
 
             return false;
         }
+
+        let intervalId = setInterval(moveSnake, 100);
     </script>
 </body>
 </html>
