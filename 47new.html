@@ -17,6 +17,10 @@
         .food {
             background-color: red;
         }
+
+        .police {
+            background-color: blue;
+        }
     </style>
 </head>
 <body>
@@ -30,6 +34,8 @@
     let snake = [{ x: 10, y: 10 }];
     let direction = 'right';
     let food = { x: 5, y: 5 };
+    let police = { x: 15, y: 15 };
+    let gameOver = false;
 
     function drawSnake() {
         gameBoard.innerHTML = '';
@@ -48,6 +54,14 @@
         foodElement.style.gridRow = food.y;
         foodElement.classList.add('food');
         gameBoard.appendChild(foodElement);
+    }
+
+    function drawPolice() {
+        const policeElement = document.createElement('div');
+        policeElement.style.gridColumn = police.x;
+        policeElement.style.gridRow = police.y;
+        policeElement.classList.add('police');
+        gameBoard.appendChild(policeElement);
     }
 
     function updateSnake() {
@@ -74,12 +88,37 @@
         } else {
             snake.pop();
         }
+
+        if (head.x === police.x && head.y === police.y) {
+            gameOver = true;
+            alert('Game Over! You have been arrested by the police!');
+        }
+
+        if (head.x > boardSize || head.x < 1 || head.y > boardSize || head.y < 1) {
+            gameOver = true;
+            alert('Game Over! You hit the border!');
+        }
+    }
+
+    function movePolice() {
+        let dx = snake[0].x - police.x;
+        let dy = snake[0].y - police.y;
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+            police.x += Math.sign(dx);
+        } else {
+            police.y += Math.sign(dy);
+        }
     }
 
     function gameLoop() {
         updateSnake();
-        drawSnake();
-        drawFood();
+        movePolice();
+        if (!gameOver) {
+            drawSnake();
+            drawFood();
+            drawPolice();
+        }
     }
 
     document.addEventListener('keydown', event => {
