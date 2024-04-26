@@ -20,121 +20,106 @@
         const rows = canvas.height / scale;
         const columns = canvas.width / scale;
 
-        let snake;
-        let food;
-        let enemy;
+        const snake = {
+            x: 0,
+            y: 0,
+            dx: scale,
+            dy: 0,
+            speed: 200,
+            color: 'black',
+            tail: []
+        };
 
-        function setup() {
-            snake = new Snake();
-            food = new Fruit();
-            food.image = new Image();
-            food.image.src = 'https://media.istockphoto.com/id/1074635972/photo/close-up-portrait-of-crying-little-toddler-girl-with-outdoors-background-child.jpg?s=612x612&w=0&k=20&c=JnXGXsyw0cmTHstFjqYnukV6zpsKxzpqTXLjbYNSfW4=';
+        const food = {
+            x: getRandomLocation(),
+            y: getRandomLocation(),
+            color: 'red'
+        };
 
-            enemy = new Enemy();
-            enemy.image = new Image();
-            enemy.image.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFYGWD1Vnfj1kJBHU-9hOKnHMXJN4DIyKDsJ1p4glXCw&s';
+        const enemy = {
+            x: getRandomLocation(),
+            y: getRandomLocation(),
+            color: 'blue'
+        };
 
-            food.pickLocation(); 
-            enemy.pickLocation();
-            
-            window.setInterval(() => {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                ctx.drawImage(food.image, food.x, food.y, scale, scale);
-                ctx.drawImage(enemy.image, enemy.x, enemy.y, scale, scale);
-
-                snake.update();
-                snake.draw();
-
-                if (snake.eat(food)) { 
-                    food.pickLocation(); 
-                    enemy.pickLocation();
-                }
-
-                if (snake.collideWithEnemy(enemy)) { 
-                    gameEnd();
-                    return;
-                }
-                
-                snake.checkCollision();
-
-                document.querySelector('.score')
-                        .innerText = snake.total;
-
-            }, 250);
+        function getRandomLocation() {
+            return Math.floor(Math.random() * rows) * scale;
         }
 
-        setup();
+        function draw() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        window.addEventListener('keydown', ((evt) => {
-            const direction = evt.key.replace('Arrow', '');
-            snake.changeDirection(direction);
-        }));
+            // Draw snake
+            ctx.fillStyle = snake.color;
+            ctx.fillRect(snake.x, snake.y, scale, scale);
 
-        function Snake() {
-            this.x = 0;
-            this.y = 0;
-            this.xSpeed = scale * 1;
-            this.ySpeed = 0;
-            this.total = 0;
-            this.tail = [];
+            // Draw food
+            ctx.fillStyle = food.color;
+            ctx.fillRect(food.x, food.y, scale, scale);
 
-            this.image = new Image();
-            this.image.src = 'https://www.pngarts.com/files/4/Game-Sprite-Snake-PNG-Free-Download.png'
-
-            this.draw = function () {
-                for (let i = 0; i < this.tail.length; i++) {
-                    ctx.drawImage(this.image, this.tail[i].x, this.tail[i].y, scale, scale);
-                }
-
-                ctx.drawImage(this.image, this.x, this.y, scale, scale);
-            }
-
-            this.update = function () {
-                for (let i = 0; i < this.tail.length - 1; i++) {
-                    this.tail[i] = this.tail[i + 1];
-                }
-
-                this.tail[this.total - 1] = { x: this.x, y: this.y };
-
-                this.x += this.xSpeed;
-                this.y += this.ySpeed;
-
-                if (this.x >= canvas.width || this.x < 0 || this.y >= canvas.height || this.y < 0) {
-                    gameEnd();
-                    return;
-                }
-            }
-
-            // Rest of the Snake functions remain unchanged
+            // Draw enemy
+            ctx.fillStyle = enemy.color;
+            ctx.fillRect(enemy.x, enemy.y, scale, scale);
         }
 
-        function Fruit() {
-            this.x;
-            this.y;
-            this.image;
+        function update() {
+            snake.x += snake.dx;
+            snake.y += snake.dy;
 
-            this.pickLocation = function () {
-                this.x = (Math.floor(Math.random() * rows)) * scale;
-                this.y = (Math.floor(Math.random() * columns)) * scale;
+            // Check collision with food
+            if (snake.x === food.x && snake.y === food.y) {
+                food.x = getRandomLocation();
+                food.y = getRandomLocation();
             }
+
+            // Move enemy towards the snake
+            if (enemy.x < snake.x) enemy.x++;
+            if (enemy.x > snake.x) enemy.x--;
+            if (enemy.y < snake.y) enemy.y++;
+            if (enemy.y > snake.y) enemy.y--;
+
+            // Check collision with enemy
+            if (snake.x === enemy.x && snake.y === enemy.y) {
+                gameOver();
+            }
+
+            // Check boundaries
+            if (snake.x < 0 || snake.x >= canvas.width || snake.y < 0 || snake.y >= canvas.height) {
+                gameOver();
+            }
+
+            // Redraw and continue updating
+            draw();
+            setTimeout(update, snake.speed);
         }
 
-        function Enemy() {
-            this.x;
-            this.y;
-            this.image;
-
-            this.pickLocation = function () {
-                this.x = (Math.floor(Math.random() * rows)) * scale;
-                this.y = (Math.floor(Math.random() * columns)) * scale;
-            }
-        }
-
-        function gameEnd() {
+        function gameOver() {
             alert('Game Over');
-            window.location.reload();
+            location.reload();
         }
+
+        document.addEventListener('keydown', (e) => {
+            const keyPressed = e.key;
+            if (keyPressed === 'ArrowUp' && snake.dy === 0) {
+                snake.dx = 0;
+                snake.dy = -scale;
+            }
+            if (keyPressed === 'ArrowDown' && snake.dy === 0) {
+                snake.dx = 0;
+                snake.dy = scale;
+            }
+            if (keyPressed === 'ArrowLeft' && snake.dx === 0) {
+                snake.dx = -scale;
+                snake.dy = 0;
+            }
+            if (keyPressed === 'ArrowRight' && snake.dx === 0) {
+                snake.dx = scale;
+                snake.dy = 0;
+            }
+        });
+
+        update();
     </script>
 </body>
 
