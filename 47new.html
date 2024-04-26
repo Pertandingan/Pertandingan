@@ -1,126 +1,76 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Snake Game</title>
-    <style>
-        #gameCanvas {
-            border: 1px solid black;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snake Game</title>
+<style>
+    body {
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    #container {
+        width: 400px;
+        height: 400px;
+        border: 2px solid white;
+    }
+
+    #snake {
+        width: 20px;
+        height: 20px;
+        background-color: green;
+        position: absolute;
+    }
+
+    #food {
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        position: absolute;
+    }
+</style>
 </head>
-
 <body>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+<div id="container"></div>
 
-        const scale = 20;
-        const rows = canvas.height / scale;
-        const columns = canvas.width / scale;
+<script>
+    const container = document.getElementById('container');
+    const snake = document.createElement('div');
+    const food = document.createElement('div');
 
-        const snake = {
-            x: 0,
-            y: 0,
-            dx: scale,
-            dy: 0,
-            speed: 200,
-            color: 'black',
-            tail: []
-        };
+    container.appendChild(snake);
+    container.appendChild(food);
 
-        const food = {
-            x: getRandomLocation(),
-            y: getRandomLocation(),
-            color: 'red'
-        };
+    let snakeX = 0;
+    let snakeY = 0;
+    let foodX = 0;
+    let foodY = 0;
 
-        const enemy = {
-            x: getRandomLocation(),
-            y: getRandomLocation(),
-            color: 'blue'
-        };
+    snake.style.left = snakeX + 'px';
+    snake.style.top = snakeY + 'px';
 
-        function getRandomLocation() {
-            return Math.floor(Math.random() * rows) * scale;
+    food.style.left = foodX + 'px';
+    food.style.top = foodY + 'px';
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight') {
+            snakeX += 20;
+        } else if (event.key === 'ArrowLeft') {
+            snakeX -= 20;
+        } else if (event.key === 'ArrowDown') {
+            snakeY += 20;
+        } else if (event.key === 'ArrowUp') {
+            snakeY -= 20;
         }
 
-        function draw() {
-            // Clear canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw snake
-            ctx.fillStyle = snake.color;
-            ctx.fillRect(snake.x, snake.y, scale, scale);
-
-            // Draw food
-            ctx.fillStyle = food.color;
-            ctx.fillRect(food.x, food.y, scale, scale);
-
-            // Draw enemy
-            ctx.fillStyle = enemy.color;
-            ctx.fillRect(enemy.x, enemy.y, scale, scale);
-        }
-
-        function update() {
-            snake.x += snake.dx;
-            snake.y += snake.dy;
-
-            // Check collision with food
-            if (snake.x === food.x && snake.y === food.y) {
-                food.x = getRandomLocation();
-                food.y = getRandomLocation();
-            }
-
-            // Move enemy towards the snake
-            if (enemy.x < snake.x) enemy.x++;
-            if (enemy.x > snake.x) enemy.x--;
-            if (enemy.y < snake.y) enemy.y++;
-            if (enemy.y > snake.y) enemy.y--;
-
-            // Check collision with enemy
-            if (snake.x === enemy.x && snake.y === enemy.y) {
-                gameOver();
-            }
-
-            // Check boundaries
-            if (snake.x < 0 || snake.x >= canvas.width || snake.y < 0 || snake.y >= canvas.height) {
-                gameOver();
-            }
-
-            // Redraw and continue updating
-            draw();
-            setTimeout(update, snake.speed);
-        }
-
-        function gameOver() {
-            alert('Game Over');
-            location.reload();
-        }
-
-        document.addEventListener('keydown', (e) => {
-            const keyPressed = e.key;
-            if (keyPressed === 'ArrowUp' && snake.dy === 0) {
-                snake.dx = 0;
-                snake.dy = -scale;
-            }
-            if (keyPressed === 'ArrowDown' && snake.dy === 0) {
-                snake.dx = 0;
-                snake.dy = scale;
-            }
-            if (keyPressed === 'ArrowLeft' && snake.dx === 0) {
-                snake.dx = -scale;
-                snake.dy = 0;
-            }
-            if (keyPressed === 'ArrowRight' && snake.dx === 0) {
-                snake.dx = scale;
-                snake.dy = 0;
-            }
-        });
-
-        update();
-    </script>
+        snake.style.left = snakeX + 'px';
+        snake.style.top = snakeY + 'px';
+    });
+</script>
 </body>
-
 </html>
