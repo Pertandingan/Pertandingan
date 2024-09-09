@@ -109,12 +109,10 @@ a:not(.btn--remix):visited {
 /******************************************************************************
 END Glitch hello-app default styles
 ******************************************************************************/
-
 body {
-  font-family: HK Grotesk;
-  background-color: var(--color-bg);
+ background-image: url("https://cdn.glitch.global/11f9dfc7-d7fd-4bac-80b7-da22c6e5b44e/RVqcDF-9n8clWElDWxhvKShFtFYBwe0p80-0kgNZl6lE.gif?v=1725888268415");
+ background-color: black;
 }
-
 /* Page structure */
 .wrapper {
   min-height: var(--wrapper-height);
