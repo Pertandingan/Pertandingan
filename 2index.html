@@ -1,20 +1,19 @@
 <html>
   <head>
-   
+    <link rel="stylesheet" href="index.css">
   </head>
   <body>
-    <button class="button1" onclick="openGame()"><img src="https://cdn.glitch.global/11f9dfc7-d7fd-4bac-80b7-da22c6e5b44e/Screenshot%202024-04-17%208.09.29%20AM.png?v=1713359420828" alt="Girl in a jacket"></button>
+    <button class="button1" onclick="openGame()">Open Browser</button>
   <script>
     function openGame() {
     var win = window.open()
-    var url = "3index.html"
+    var url = "https://rh.lhost.dev/"
     var iframe = win.document.createElement('iframe')
     iframe.style.width = "100%";
     iframe.style.height = "100%";
-    iframe.src = url"3index.html"
+    iframe.src = url
     win.document.body.appendChild(iframe)
     }
   </script>
   </body>
 </html>
-
