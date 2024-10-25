@@ -1,15 +1,26 @@
 body {
     margin: 0;
     height: 100vh;
-    background-image: url('your-background-image.jpg'); /* Replace with your background image */
-    background-size: cover;
     position: relative;
+    overflow: hidden; /* Prevents scrollbars from appearing */
 }
 
-.overlay {
+.background {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10; /* Optional: Change layer position */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('your-background-image.jpg'); /* Replace with your background image */
+    background-size: cover;
+    z-index: 1; /* Background layer */
+}
+
+.gif-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2; /* Overlay layer */
 }
