@@ -1,4 +1,10 @@
 body {
+      background-color: navy; /* Set the background color to navy */
+            color: white; /* Text color set for readability */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+     
     margin: 0; /* Remove default margin */
     height: 100vh; /* Full height of the viewport */
     
