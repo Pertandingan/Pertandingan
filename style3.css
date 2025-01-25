@@ -1,3 +1,11 @@
+body {
+    margin: 0; /* Remove default margin */
+    height: 100vh; /* Full height of the viewport */
+    
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* Font style for easier readability */
 }
 
 .navbar {
