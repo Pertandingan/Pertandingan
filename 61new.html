@@ -1,23 +1,9 @@
-<div id="spotify-embed" style="position: relative; width: 100%; margin-bottom:30px; padding-top: 20px; display: block;"></div>
-<script src="https://sdk.spotify.com/build/client.js" data-skip-tutorial="true"></script>
-<script>
-  const token = 'your_token_here';
-  const url = 'your_playlist_url';
-  const script = document.createElement('script');
-  const firstScriptTag = document.getElementsByTagName('script')[0];
-  script.async = true;
-  script.src = `https://open.spotify.com/embed/${url}?utm_source=embed&utm_medium=website&utm_campaign=api`;
-  script.onload = function() {
-    Spotify.Player({
-      name: "Embeddable Player",
-      getOAuthToken: callback => {
-        callback(token);
-      }
-    }).then(player => {
-      firstScriptTag.parentNode.insertBefore(script, firstScriptTag);
-      player.connect();
-    })
-    .catch(error => console.error("Error in Spotify API setup:", error));
-  };
-  document.body.appendChild(script);
-</script>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <iframe 
+        src="https://open.spotify.com/embed/playlist/1JMAuEuHwYtjuKcQfxZgKn" 
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+        frameborder="0" 
+        allowtransparency="true" 
+        allow="encrypted-media">
+    </iframe>
+</div>
