@@ -24,9 +24,20 @@
         <h1>Settings Page</h1>
         <p>Click the button below to go to the regular link.</p>
         <a href="https://pertandingan.netlify.app/" class="button" target="_blank" rel="noopener noreferrer">Regular Link</a>
-        <p>Click the button below to go into about blank mode.</p>
-        <a href="https://pertandingan.netlify.app/" class="button" target="_blank" rel="noopener noreferrer">About Blank</a>
-        <!-- Setting target="_blank" to open in a new tab -->
+             <p>Click the button below to go to a about blank tab.</p>
+      <button onclick="About Blank('https://pertandingan.netlify.app/')">Open Example.com in about:blank</button>
+      
+
+    <script>
+        function openLinkInAboutBlank(url) {
+            const newWindow = window.open('about:blank', '_blank');
+            if (newWindow) {
+                newWindow.location.href = url;
+            } else {
+                alert('Pop-up blocked! Please allow pop-ups for this site.');
+            }
+        }
+    </script>
           <div class="container">
         <h1>Game Settings</h1>
         <form id="settingsForm">
