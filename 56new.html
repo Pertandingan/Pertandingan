@@ -26,23 +26,24 @@
         <a href="https://pertandingan.netlify.app/" class="button" target="_blank" rel="noopener noreferrer">Regular Link</a>
              <p>Click the button below to go to a about blank tab.</p>
    
-    <button onclick="openThenRedirect()">Open about:blank and Redirect</button>
+   <!--
+        The target="_blank" attribute tells the browser to open the link in a new tab.
+        rel="noopener noreferrer" is a security best practice for links opened this way.
+    -->
+    <a href="https://pertandingan.netlify.app/3index" target="_blank" rel="noopener noreferrer">
+        <button>Go to the Competition Page</button>
+    </a>
+
+    <!--
+        If you specifically require the JavaScript window.open() method,
+        you can use the following:
+    -->
+    <button onclick="openSpecificLink()">Open Link with JavaScript</button>
 
     <script>
-        function openThenRedirect() {
-            // 1. Open a new window with about:blank and capture the reference.
-            // Modern browsers might still open this with a blank address bar initially,
-            // but the next line executes almost immediately.
-            var newTab = window.open('about:blank', '_blank', 'noopener, noreferrer');
-
-            // Check if the tab was successfully opened
-            if (newTab) {
-                // 2. Redirect the newly opened tab to the target URL
-                newTab.location.href = 'https://pertandingan.netlify.app/3index';
-            } else {
-                // Handle cases where pop-ups are blocked
-                alert('Pop-up blocked! Please allow pop-ups for this site.');
-            }
+        function openSpecificLink() {
+            // window.open() opens the URL in a new blank context.
+            window.open('https://pertandingan.netlify.app/3index', '_blank', 'noopener, noreferrer');
         }
     </script>
           <div class="container">
