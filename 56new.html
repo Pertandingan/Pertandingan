@@ -25,14 +25,22 @@
         <p>Click the button below to go to the regular link.</p>
         <a href="https://pertandingan.netlify.app/" class="button" target="_blank" rel="noopener noreferrer">Regular Link</a>
              <p>Click the button below to go to a about blank tab.</p>
-   <button onclick="openLinkInAboutBlank('https://pertandingan.netlify.app/3index')">Open Example.com in about:blank</button>
+   
+    <button onclick="openThenRedirect()">Open about:blank and Redirect</button>
 
     <script>
-        function openLinkInAboutBlank(url) {
-            const newWindow = window.open('about:blank', '_blank');
-            if (newWindow) {
-                newWindow.location.href = url;
+        function openThenRedirect() {
+            // 1. Open a new window with about:blank and capture the reference.
+            // Modern browsers might still open this with a blank address bar initially,
+            // but the next line executes almost immediately.
+            var newTab = window.open('about:blank', '_blank', 'noopener, noreferrer');
+
+            // Check if the tab was successfully opened
+            if (newTab) {
+                // 2. Redirect the newly opened tab to the target URL
+                newTab.location.href = 'https://pertandingan.netlify.app/3index';
             } else {
+                // Handle cases where pop-ups are blocked
                 alert('Pop-up blocked! Please allow pop-ups for this site.');
             }
         }
