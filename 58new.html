@@ -22,13 +22,22 @@
     <div class="content">
         <h1>Proxy Page</h1>
         <p>Click one of the buttons below to go to one of the Proxys .</p>
-           <a href="71new.html" class="button" target="_blank" rel="noopener noreferrer">Interstellar</a>
-        <a href="71new.html" class="button" target="_blank" rel="noopener noreferrer">Interstellar</a>
-         <a href="71new.html" class="button" target="_blank" rel="noopener noreferrer">InterStellar2</a>
-      <a href="71new.html" class="button" target="_blank" rel="noopener noreferrer">InterStellar3</a>
-      <a href="71new.html" class="button" target="_blank" rel="noopener noreferrer">InterStellar4</a>
-      <a href="71new.html" class="button" target="_blank" rel="noopener noreferrer">InterStellar5</a>
-        <!-- Setting target="_blank" to open in a new tab -->
+             <body>
+    <button class="button1" onclick="openGame()">Click To Open Proxy</button>
+  <script>
+    function openGame() {
+    var win = window.open()
+    var url ="https://interstellarai.vercel.app/"
+    var iframe = win.document.createElement('iframe')
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.src = url
+    win.document.body.appendChild(iframe)
+    }
+  </script>
+  </body>
+</html>
+
         <h2>
     Ive seen your feedback I hope you know I can not add Fortnite or BrawlStars Please add more detailed feedback
   </h2>
